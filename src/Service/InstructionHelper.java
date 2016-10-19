@@ -21,21 +21,44 @@ import Entity.Constants;
 
 public class InstructionHelper {
 
-	public int calcuAge(String birthday) {
+	public SimpleDateFormat toDateForamt(String biDay) {
 
 		SimpleDateFormat sdf = null;
 
-		if (birthday.contains("-")) {
+		if (biDay.contains("-")) {
 			sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-		} else if (birthday.contains("/")) {
+		} else if (biDay.contains("/")) {
 			sdf = new SimpleDateFormat("dd/MM/yyyy");
 		}
+
+		return sdf;
+	}
+
+	public int calcuAge(String birthday) {
+
+//		SimpleDateFormat sdf = null;
+//
+//		if (birthday.contains("-")) {
+//			sdf = new SimpleDateFormat("dd-MM-yyyy");
+//
+//		} else if (birthday.contains("/")) {
+//			sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		}
+
+		SimpleDateFormat sdf = null;
+		sdf = toDateForamt(birthday);
+
+//		if (birthday.isEmpty() || birthday == null) {
+//			System.out.println("================================================================");
+//		} else {
+//			System.out.println("========================" + birthday + "========================");
+//		}
 
 		Date now = new Date();
 		int age = 0;
 		try {
-			Date birthDate = sdf.parse(birthday);
+			Date birthDate = toDateForamt(birthday).parse(birthday);
 
 			long nowTime = now.getTime();
 			long birthTime = birthDate.getTime();
@@ -43,7 +66,7 @@ public class InstructionHelper {
 			age = (int) (interval / 1000 / 60 / 60 / 24 / 365);
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			System.out.println("birthday not valid");
 		}
 
 		return age;
@@ -239,8 +262,8 @@ public class InstructionHelper {
 				Date fromDate = null;
 				Date toDate = null;
 				try {
-					fromDate = sdf.parse(queryInfo[0]);
-					toDate = sdf.parse(queryInfo[1]);
+					fromDate = toDateForamt(queryInfo[0]).parse(queryInfo[0]);
+					toDate = toDateForamt(queryInfo[1]).parse(queryInfo[1]);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -249,32 +272,32 @@ public class InstructionHelper {
 				int num = visitHistory.length;
 
 				for (int i = 0; i < num; i++) {
-					if (visitHistory[i].contains("4D Theatre")) {
+					if (visitHistory[i].startsWith("4D Theatre")) {
 						visitMap.put(
 								"4D Theatre",
 								getIndex("4D Theatre", visitHistory[i],
 										fromDate, toDate, 11));
-					} else if (visitHistory[i].contains("Spiderman Escape")) {
+					} else if (visitHistory[i].startsWith("Spiderman Escape")) {
 						visitMap.put(
 								"Spiderman Escape",
 								getIndex("Spiderman Escape", visitHistory[i],
 										fromDate, toDate, 16));
-					} else if (visitHistory[i].contains("Ice Age Adventure")) {
+					} else if (visitHistory[i].startsWith("Ice Age Adventure")) {
 						visitMap.put(
 								"Ice Age Adventure",
 								getIndex("Ice Age Adventure", visitHistory[i],
 										fromDate, toDate, 16));
-					} else if (visitHistory[i].contains("Canyon Blaster")) {
+					} else if (visitHistory[i].startsWith("Canyon Blaster")) {
 						visitMap.put(
 								"Canyon Blaster",
 								getIndex("Canyon Blaster", visitHistory[i],
 										fromDate, toDate, 14));
-					} else if (visitHistory[i].contains("Flow Rider")) {
+					} else if (visitHistory[i].startsWith("Flow Rider")) {
 						visitMap.put(
 								"Flow Rider",
 								getIndex("Flow Rider", visitHistory[i],
 										fromDate, toDate, 11));
-					} else if (visitHistory[i].contains("Carousel")) {
+					} else if (visitHistory[i].startsWith("Carousel")) {
 						visitMap.put(
 								"Carousele",
 								getIndex("Carousel", visitHistory[i], fromDate,
@@ -360,7 +383,7 @@ public class InstructionHelper {
 			String filePath) {
 		Iterator iter = cardMap.entrySet().iterator();
 		int population = 0;
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf = null;
 		ArrayList<Integer> ageList = new ArrayList<Integer>();
 
 		while (iter.hasNext()) {
@@ -375,8 +398,11 @@ public class InstructionHelper {
 				Date fromDate = null;
 				Date toDate = null;
 				try {
-					fromDate = sdf.parse(queryInfo[0]);
-					toDate = sdf.parse(queryInfo[1]);
+//					fromDate = sdf.parse(queryInfo[0]);
+//					toDate = sdf.parse(queryInfo[1]);
+
+					fromDate = toDateForamt(queryInfo[0]).parse(queryInfo[0]);
+					toDate = toDateForamt(queryInfo[1]).parse(queryInfo[1]);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -387,10 +413,10 @@ public class InstructionHelper {
 				for (int i = 0; i < num; i++) {
 					String[] histSegment = visitHistory[i].split(" ");
 					for (int j = 0; j < histSegment.length; j++) {
-						if (histSegment[j].contains("/")) {
+						if (histSegment[j].contains("/") || histSegment[j].contains("-")) {
 							Date visitDay = null;
 							try {
-								visitDay = sdf.parse(histSegment[j]);
+								visitDay = toDateForamt(histSegment[j]).parse(histSegment[j]);
 								if (visitDay.after(fromDate)&& visitDay.before(toDate)) {
 									ageList.add(age);
 									population++;

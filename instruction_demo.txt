@@ -1,0 +1,54 @@
+add ID 0000007; name Rightadd Evans; birthday 1-1-2013
+add name Rightadd Linda; ID 0000008; birthday 01-01-2013
+add ID wrongid; name Wrongid Linda; birthday 1-1-2013
+add ID 0000009; name Wrongname L123inda; birthday 1-1-2013
+add ID 0000010; name Wrongbirth Linda; birthday 1-12-2013
+
+add ID 0000011; name Delthomas Swan; birthday 1-11-1947
+delete ID 0000011
+
+request ID 0000001; 4D Theatre; 01-03-2005 
+
+request ID 0000001; Ice Age Adventure; 01-03-2005
+add ID 0000001; height 210cm
+request ID 0000001; Ice Age Adventure; 02-03-2005
+
+add ID 0000001; height 180cm
+request ID 0000001; Ice Age Adventure; 03-03-2005
+
+
+query name Right Durant
+
+add ID 0000014; name Right Durant; birthday 1-1-1980; height 178cm
+request ID 0000014; Flow Rider; 01-02-2010 
+request ID 0000014; Flow Rider; 02-02-2010 
+request ID 0000014; Flow Rider; 03-02-2010 
+request ID 0000014; Canyon Blaster; 04-02-2010 
+request ID 0000014; Canyon Blaster; 05-02-2010 
+request ID 0000014; Canyon Blaster; 06-02-2010 
+request ID 0000014; Canyon Blaster; 07-02-2010 
+request ID 0000014; 4D Theatre; 08-02-2010 
+add ID 0000012; name Right Durant; birthday 1-1-2004; height 110cm
+request ID 0000012; Flow Rider; 01-02-2010 
+request ID 0000012; Flow Rider; 02-02-2010 
+request ID 0000012; Flow Rider; 03-02-2010 
+request ID 0000012; Flow Rider; 04-02-2010 
+request ID 0000012; Flow Rider; 05-02-2010 
+request ID 0000012; Flow Rider; 06-02-2010 
+request ID 0000012; Flow Rider; 07-02-2010 
+add ID 0000013; name Right Durant; birthday 1-1-2000; height 165cm
+request ID 0000013; Carousel; 01-02-2010 
+request ID 0000013; Carousel; 02-02-2010 
+request ID 0000013; Carousel; 03-02-2010 
+request ID 0000013; Flow Rider; 04-02-2010 
+request ID 0000013; Flow Rider; 05-02-2010 
+request ID 0000013; Flow Rider; 06-02-2010 
+request ID 0000013; Flow Rider; 07-02-2010 
+
+request ID 0000001; 4D Theatre; 01-02-2010 
+
+
+query name Right Durant
+query 31-01-2010 ; 01-03-2010 ; ID 0000014
+query 31-01-2010 ; 01-03-2010 ; age
+

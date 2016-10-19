@@ -33,9 +33,11 @@ public class InstructionService {
 	private InstructionHelper helper = new InstructionHelper();
 	
 	public void add(String instruction, HashMap<String, Card> cardMap) {
-		instruction = instruction.substring(4, instruction.length());
+		instruction = instruction.substring(4, instruction.length()).trim();
 		String[] addInfo = instruction.split(";");
-		String newId = instruction.substring(3, 9);
+//		String newId = instruction.substring(3, 9); // fatal error
+
+		String newId = addInfo[0].substring(3); // fatal correction!!!!! 1019 lab
 		if (cardMap.containsKey(newId)) {// update record
 
 			Card card = cardMap.get(newId);
@@ -86,7 +88,7 @@ public class InstructionService {
 					.split(";");
 			queryInfo[0] = queryInfo[0].trim();
 			queryInfo[1] = queryInfo[1].trim();
-			queryInfo[2] = queryInfo[2].trim().substring(3, 9);
+			queryInfo[2] = queryInfo[2].trim().substring(3);
 
 			try {
 				helper.queryByID(queryInfo, cardMap, filePath);
@@ -118,14 +120,14 @@ public class InstructionService {
 
 				while ((lineTxt = bufferedReader.readLine()) != null) {
 
-					if (lineTxt.contains("add")) {
+					if (lineTxt.startsWith("add ")) {
 						add(lineTxt.trim(), cardMap);
-					} else if (lineTxt.contains("delete")) {
+					} else if (lineTxt.startsWith("delete ")) {
 						delete(lineTxt.trim(), cardMap);
-					} else if (lineTxt.contains("request")) {
+					} else if (lineTxt.startsWith("request ")) {
 						request(lineTxt.trim(), cardMap, reportFilePath);
 
-					} else if (lineTxt.contains("query")) {
+					} else if (lineTxt.startsWith("query ")) {
 						query(lineTxt.trim(), cardMap, reportFilePath);
 
 					}
