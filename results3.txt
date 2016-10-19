@@ -1,0 +1,24 @@
+ID 1122211                     
+name David Bloggs
+birthday 1-6-2003
+address 
+height 
+
+
+ID 112221
+name null
+birthday null
+height 80cm
+
+ID 002220
+name null
+birthday null
+height 210cm
+
+ID 0022200                     
+name Tom Levis
+birthday 1-2-1980
+address 
+height 189cm
+
+

@@ -55,5 +55,4 @@ public class Constants {
 		attracMap.put("Carousel", carousel);
 	}
 	
-	
 }

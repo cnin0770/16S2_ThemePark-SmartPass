@@ -14,7 +14,7 @@ public class TPSP {
 	
 	public static void main(String[] args){
 		
-		Constants cons = new Constants();
+		Constants cons = new Constants(); // set up attractions
 //		System.out.println("-----------------Theme Park Smart-Pass System-----------------");
 		
 		if(args.length!=4){
@@ -37,8 +37,6 @@ public class TPSP {
 			
 			cardService.writeCardIntoResultFile(resultFile, cardMap);
 		}
-		
-		
-		
+
 	}
 }
