@@ -62,4 +62,16 @@ public class Card {
 		this.attracVisitHistory = attracVisitHistory;
 	}
 
+	public boolean isInfoValid() {
+		if (id != null && id != "" &&
+				name != null && name != "" &&
+				birthday != null && birthday != "" &&
+				height != null && height != "" &&
+				address != null && address != "") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

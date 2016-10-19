@@ -2,6 +2,7 @@ package Service;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.spec.ECField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,11 +49,11 @@ public class InstructionHelper {
 		return age;
 	}
 	
-	public void updateOrInsertCard(Card card, String[] addInfo) {
+	public void updateOrInsertCard(Card card, String[] addInfo) { // add
 		for (int i = 0; i < addInfo.length; i++) {
 
 			if (addInfo[i].trim().contains("ID")) {
-				card.setId(addInfo[i].trim().substring(3, 9));
+				card.setId(addInfo[i].trim().substring(3, addInfo[i].trim().length())); // second arg: 9 or addInfo[i].trim().length() ?
 			} else if (addInfo[i].trim().contains("name")) {
 				card.setName(addInfo[i].trim().substring(5,
 						addInfo[i].trim().length()));
@@ -69,74 +70,129 @@ public class InstructionHelper {
 		}
 	}
 	
-	public void judgeRequest(String instruction, HashMap<String, Card> cardMap) {
+	public void judgeRequest(String instruction, HashMap<String, Card> cardMap, String filePath) {
+		String content = "";
 		String[] requestInfo = instruction.split(";");
 		String requestId = requestInfo[0].substring(3, requestInfo[0].length());
 
 		if (cardMap.containsKey(requestId)) {// request
 			Card card = cardMap.get(requestId);
+
 			String birthday = card.getBirthday();
 			int age = calcuAge(birthday);
-			int height = Integer.valueOf(card.getHeight().substring(0,
-					card.getHeight().length() - 2));
-			String attracName = requestInfo[1].trim();
-			Attraction attrac = Constants.attracMap.get(attracName);
-			String ageRequire = attrac.getAge();
-			String heightRequire = attrac.getHeight();
-			boolean flag = true;
 
-			if (ageRequire.contains(">=")) {
-				if (age < Integer.valueOf(ageRequire.substring(2,
-						ageRequire.length()))) {
-					System.out.println("----request " + instruction + "---");
-					System.out.println("Request Denied: " + requestInfo[1]
-							+ " " + requestInfo[2]);
-					System.out.println("Reasons: Age requirement not met");
-					flag = false;
-				}
-			} else if (ageRequire.contains("<=")) {
-				if (age > Integer.valueOf(ageRequire.substring(2,
-						ageRequire.length()))) {
-					System.out.println("----request " + instruction + "---");
-					System.out.println("Request Denied: " + requestInfo[1]
-							+ " " + requestInfo[2]);
-					System.out.println("Reasons: Age requirement not met");
-					flag = false;
-				}
-			}
+			try {
+				int height = Integer.valueOf(card.getHeight().substring(0, // error
+						card.getHeight().length() - 2));
 
-			if (heightRequire.contains(">=")) {
-				if (height < Integer.valueOf(heightRequire.substring(2,
-						heightRequire.length()))) {
-					System.out.println("----request " + instruction + "---");
-					System.out.println("Request Denied: " + requestInfo[1]
-							+ " " + requestInfo[2]);
-					System.out.println("Reasons: Height requirement not met");
-					flag = false;
-				}
-			} else if (heightRequire.contains("<=")) {
-				if (height > Integer.valueOf(heightRequire.substring(2,
-						heightRequire.length()))) {
-					System.out.println("----request " + instruction + "---");
-					System.out.println("Request Denied: " + requestInfo[1]
-							+ " " + requestInfo[2]);
-					System.out.println("Reasons: Height requirement not met");
-					flag = false;
-				}
-			}
+				String attracName = requestInfo[1].trim();
+				Attraction attrac = Constants.attracMap.get(attracName);
+				String ageRequire = attrac.getAge();
+				String heightRequire = attrac.getHeight();
+				boolean flag = true;
 
-			if (flag) {
-				String visitHistory = card.getAttracVisitHistory();
-				card.setAttracVisitHistory(visitHistory + "\n" + requestInfo[1]
-						+ " " + requestInfo[2]);
+				if (ageRequire.contains(">=")) {
+					if (age < Integer.valueOf(ageRequire.substring(2,
+							ageRequire.length()))) {
+//						System.out.println("----request " + instruction + "---");
+//						System.out.println("Request Denied: " + requestInfo[1]
+//								+ " " + requestInfo[2]);
+//						System.out.println("Reasons: Age requirement not met");
+						flag = false;
 
+						content = "----request " + instruction + "---" + "\r\n" +
+								"Request Denied: " + requestInfo[1] + " " + requestInfo[2] + "\r\n" +
+								"Reasons: Age requirement not met";
+
+						System.out.println(content);
+
+						content += "\r\n---------------------------------------\r\n\n";
+
+					}
+				} else if (ageRequire.contains("<=")) {
+					if (age > Integer.valueOf(ageRequire.substring(2,
+							ageRequire.length()))) {
+//						System.out.println("----request " + instruction + "---");
+//						System.out.println("Request Denied: " + requestInfo[1]
+//								+ " " + requestInfo[2]);
+//						System.out.println("Reasons: Age requirement not met");
+						flag = false;
+
+						content = "----request " + instruction + "---" + "\r\n" +
+								"Request Denied: " + requestInfo[1] + " " + requestInfo[2] + "\r\n" +
+								"Reasons: Age requirement not met";
+
+						System.out.println(content);
+
+						content += "\r\n---------------------------------------\r\n\n";
+
+					}
+				}
+
+				if (heightRequire.contains(">=")) {
+					if (height < Integer.valueOf(heightRequire.substring(2,
+							heightRequire.length()))) {
+//						System.out.println("----request " + instruction + "---");
+//						System.out.println("Request Denied: " + requestInfo[1]
+//								+ " " + requestInfo[2]);
+//						System.out.println("Reasons: Height requirement not met");
+						flag = false;
+
+						content = "----request " + instruction + "---" + "\r\n" +
+								"Request Denied: " + requestInfo[1] + " " + requestInfo[2] + "\r\n" +
+								"Reasons: Height requirement not met";
+
+						System.out.println(content);
+
+						content += "\r\n---------------------------------------\r\n\n";
+
+					}
+				} else if (heightRequire.contains("<=")) {
+					if (height > Integer.valueOf(heightRequire.substring(2,
+							heightRequire.length()))) {
+//						System.out.println("----request " + instruction + "---");
+//						System.out.println("Request Denied: " + requestInfo[1]
+//								+ " " + requestInfo[2]);
+//						System.out.println("Reasons: Height requirement not met");
+						flag = false;
+
+						content = "----request " + instruction + "---" + "\r\n" +
+								"Request Denied: " + requestInfo[1] + " " + requestInfo[2]+ "\r\n" +
+								"Reasons: Height requirement not met";
+
+						System.out.println(content);
+
+						content += "\r\n---------------------------------------\r\n\n";
+					}
+				}
+
+				if (flag) {
+					String visitHistory = card.getAttracVisitHistory();
+					card.setAttracVisitHistory(visitHistory + "\n" + requestInfo[1]
+							+ " " + requestInfo[2]);
+
+				}
+			} catch (Exception e) {
+				e.getMessage();
 			}
 
 		} else {// id does not exist
-			System.out.println("----request " + instruction + "---");
-			System.out.println("Request Denied: " + requestInfo[1] + " "
-					+ requestInfo[2]);
-			System.out.println("Reasons: Request ID does not exist");
+//			System.out.println("----request " + instruction + "---");
+//			System.out.println("Request Denied: " + requestInfo[1] + " "
+//					+ requestInfo[2]);
+//			System.out.println("Reasons: Request ID does not exist");
+
+			content = "----request " + instruction + "---" + "\r\n" +
+					"Request Denied: " + requestInfo[1] + " " + requestInfo[2] + "\r\n" +
+					"Reasons: Request ID does not exist";
+
+			System.out.println(content);
+			content += "\r\n---------------------------------------\r\n\n";
+
+		}
+
+		if (content != "") {
+			appendContent(filePath, content);
 		}
 	}
 	

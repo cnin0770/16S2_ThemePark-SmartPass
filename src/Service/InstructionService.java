@@ -67,9 +67,9 @@ public class InstructionService {
 
 	
 
-	public void request(String instruction, HashMap<String, Card> cardMap) {
+	public void request(String instruction, HashMap<String, Card> cardMap, String filePath) {
 		instruction = instruction.substring(8, instruction.length());
-		helper.judgeRequest(instruction, cardMap);
+		helper.judgeRequest(instruction, cardMap, filePath);
 
 	}
 
@@ -119,11 +119,11 @@ public class InstructionService {
 				while ((lineTxt = bufferedReader.readLine()) != null) {
 
 					if (lineTxt.contains("add")) {
-						add(lineTxt, cardMap);
+						add(lineTxt.trim(), cardMap);
 					} else if (lineTxt.contains("delete")) {
-						delete(lineTxt, cardMap);
+						delete(lineTxt.trim(), cardMap);
 					} else if (lineTxt.contains("request")) {
-						request(lineTxt, cardMap);
+						request(lineTxt.trim(), cardMap, reportFilePath);
 
 					} else if (lineTxt.contains("query")) {
 						query(lineTxt.trim(), cardMap, reportFilePath);

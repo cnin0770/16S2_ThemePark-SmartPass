@@ -66,27 +66,28 @@ public class CardService {
 							|| lineTxt.contains("4D Theatre")
 							|| lineTxt.contains("Flow Rider")
 							|| lineTxt.contains("Carousel")) {
-						attracHistory += lineTxt + "#";
+						attracHistory += lineTxt + "#";  // may error
 
 					} else {
 						if (lineTxt.contains("address")) {
 							lineTxt = lineTxt.substring(8, lineTxt.length());
 							
 						}
-						address += lineTxt;
+						address += lineTxt;  // may error
 
 					}
+
 					if (attracHistory.length() != 0) {
-						
 					}
+
 					if (lineTxt.length() == 0 ||!sc.hasNextLine()) {
 						
 						Card card = new Card();
-						card.setId(id);
-						card.setName(name);
-						card.setHeight(height);
+						card.setId(id.trim());
+						card.setName(name.trim());
+						card.setHeight(height.trim());
 						card.setAddress(address);
-						card.setBirthday(birthday);
+						card.setBirthday(birthday.trim());
 						card.setAttracVisitHistory(attracHistory);
 
 						cardMap.put(card.getId(), card);
